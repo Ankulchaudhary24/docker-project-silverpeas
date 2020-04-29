@@ -1,0 +1,37 @@
+version : '3'
+
+services : 
+
+    postgresql :
+
+        image : postgres:latest
+        volumes :
+            - postgresql-data:/var/lib/postgresql/data
+        restart : always
+        environment :
+            POSTGRES_PASSWORD : mysecretpassword
+            POSTGRES_USER : ankulchaudhary
+            POSTGRES_DB : silverpeas_db 
+    
+    silverpeas :
+ 
+        image : silverpeas:latest
+        depends_on :
+            - postgresql
+        ports : 
+            - 1234:8080
+        volumes :
+            - silverpeas-log:/opt/silverpeas/log 
+            - silverpeas-data:/opt/silverpeas/data 
+        restart : always
+        environment :
+            DB_NAME : silverpeas_db 
+            DB_USER : ankulchaudhary
+            DB_PASSWORD : thesilverpeaspassword
+            
+volumes : 
+    postgresql-data:
+    silverpeas-log:
+    silverpeas-data:
+    
+
